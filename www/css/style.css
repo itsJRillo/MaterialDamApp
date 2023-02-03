@@ -6,9 +6,16 @@
  * Made By MaterializeCSS.com
  */
 
-.icon-block {
-  padding: 0 15px;
+
+ html, body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: column;
 }
-.icon-block .material-icons {
-	font-size: inherit;
+
+.tabs-content {
+  height: 100%;
+  overflow-y: scroll !important;
 }
