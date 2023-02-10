@@ -40,13 +40,13 @@ function loadArticles() {
       var id = makeid(4);
 
       $("#list").append(`
-        <li class="collection-item"><a id="article${id}" href="#" style="unset: all;">${title}</a></li>
+        <li class="collection-item"><a id="article${id}" href="#" style="display: flex; align-items: center; justify-content: space-between;">${title} <i class="material-icons">send</a></li>
       `);
 
       $(`#article${id}`).click(function(){
         $("#article-info").html("");
         $('#tabs-swipe-demo').tabs("select", "test-swipe-2");
-        loadArticle(msg[item].title,msg[item].summary,msg[item].publishedAt,msg[item].imageUrl);
+        loadArticle(msg[item].title,msg[item].summary,msg[item].publishedAt,msg[item].imageUrl,msg[item].url);
       });
 
       $("#article-cards").append(`
@@ -72,19 +72,20 @@ function loadArticles() {
   });
 }
 
-function loadArticle(title, summary, publishDate, imageUrl){
+function loadArticle(title, summary, publishDate, imageUrl, url){
 
   $("#article-info").append(`
-      <div class="card medium">
+      <div class="card-responsive card large">
         <div class="card-image">
           <img src="${imageUrl}">
           <span class="card-title" style="font-size: 20px;">${title}</span>
         </div>
-        <div class="card-content">
+        <div class="card-size card-content">
           <p>${summary}</p>
         </div>
         <div class="card-action">
-          Published at ${new Date(publishDate).toLocaleDateString("en-US",options)}
+          <p> Published at ${new Date(publishDate).toLocaleDateString("en-US",options)}</p>
+          <a href="${url}"><button class="buttonLink" type="button">Go to the original article</button></a>
         </div>
       </div>
       `);
