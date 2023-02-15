@@ -3,7 +3,6 @@ document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
-
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 }
@@ -19,6 +18,7 @@ function onDeviceReady() {
     $('#tabs-swipe-demo').tabs("select", "tab2");
 
     $("#articles-list-button").click(loadArticles);
+    document.getElementById("cameraButton").addEventListener("click", takePicture);
     
 
   })(jQuery); // end of jQuery name space
@@ -89,6 +89,45 @@ function loadArticle(title, summary, publishDate, imageUrl, url){
         </div>
       </div>
       `);
+}
+
+function takePicture(){
+    //var cameraOptions = {}
+  
+    // navigator.camera.getPicture(cameraCallback, cameraError, cameraOptions)
+
+    var cameraOptions = {
+     destinationType: Camera.DestinationType.FILE_URI,
+       encodingType : Camera.EncodingType.JPEG,
+  correctOrientation: true,
+          sourceType: Camera.PictureSourceType.CAMERA
+}
+
+navigator.camera.getPicture(
+  function(imageURI) {
+  resolveLocalFileSystemURL(imageURI, function(fileEntry) {
+    // fileEntry is usable for uploading without holding image in memory...
+    
+    fileEntry.file(function(file) { 
+      var reader = new FileReader();
+      reader.onloadend = function() {
+        // this.result contains the Data URI usable as a preview thumbnail
+        $('#picture').attr('src', this.result);
+      }
+      reader.readAsDataURL(file);
+    }, cameraError);
+  }, cameraError);
+}, cameraError, cameraOptions);
+
+}
+
+function cameraCallback(imageData) {
+  var image = document.getElementById('picture');
+  image.src = "data:image/jpeg;base64," + imageData;
+}
+
+function cameraError(){
+  alert('Camera Error');
 }
 
 function makeid(length) {
